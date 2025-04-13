@@ -5,13 +5,16 @@ import React, { useCallback } from 'react';
 import StringParam from './param/StringParam';
 import { useReactFlow } from '@xyflow/react';
 import { AppNode } from '@/types/appNode';
+import BrowserInstanceParam from './param/BrowserInstanceParam';
 
 const NodeParamField = ({
   param,
   nodeId,
+  disabled
 }: {
   param: TaskParam;
   nodeId: string;
+  disabled?: boolean;
 }) => {
   const { updateNodeData, getNode } = useReactFlow();
   const node = getNode(nodeId) as AppNode;
@@ -30,7 +33,23 @@ const NodeParamField = ({
 
   switch (param.type) {
     case TaskParamType.STRING:
-      return <StringParam value={value} updateNodeParamValue={updateNodeParamValue} param={param} />;
+      return (
+        <StringParam
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+          param={param}
+          disabled={disabled}
+        />
+      );
+
+    case TaskParamType.BROWSER_INSTANCE:
+      return (
+        <BrowserInstanceParam
+          value={value}
+          updateNodeParamValue={updateNodeParamValue}
+          param={param}
+        />
+      );
     default:
       return (
         <div className="w-full">
