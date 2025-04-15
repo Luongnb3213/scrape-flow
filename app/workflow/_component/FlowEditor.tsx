@@ -41,7 +41,6 @@ const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
   const { setViewport, screenToFlowPosition, updateNodeData } = useReactFlow();
   useEffect(() => {
     const flow = JSON.parse(workflow.definition);
-    console.log('flow', flow);
     if (!flow) return;
     setNodes(flow.nodes || []);
     setEdges(flow.edges || []);
@@ -83,7 +82,6 @@ const FlowEditor = ({ workflow }: { workflow: Workflow }) => {
       // remove input value if is present on connection
 
       const node = nodes.find((node) => node.id === connection.target);
-      console.log(nodes);
       if (!node) return;
 
       const nodeInputs = node.data.inputs;

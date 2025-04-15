@@ -13,7 +13,7 @@ export const PageToHtmkTask = {
     {
       name: 'Web page',
       type: TaskParamType.BROWSER_INSTANCE,
-      required: true,
+      required: true, // this is required a input from annother node ( output of another node)
       hideHandle: false,
       helperText: '',
     },

@@ -1,0 +1,129 @@
+import 'server-only';
+import { prisma } from '../prisma';
+import { revalidatePath } from 'next/cache';
+import {
+  ExecutionPhaseStatus,
+  WorkflowExecutionStatus,
+} from '@/types/worklflow';
+import { waitFor } from '../helper/waitFor';
+
+export async function ExecuteWorkflow(executionId: string) {
+  const execution = await prisma.workflowExecution.findUnique({
+    where: {
+      id: executionId,
+    },
+    include: {
+      workflow: true,
+      phase: true,
+    },
+  });
+
+  if (!execution) {
+    throw new Error('Workflow execution not found');
+  }
+
+  const environment = { phases: {} };
+
+  //TODO: setup execution environment
+  await initializeWorkflowExcution(executionId, execution.workflowId);
+
+  //TODO: initialize workflow execution
+  await initializePhaseStatues(execution);
+
+  let creditsConsumed = 0;
+  let executionFailed = false;
+  for (const phase of execution.phase) {
+    //  TODO: consume credits
+    //  TODO: execute phase
+    await waitFor(3000)
+  }
+
+  // TODO: finalize execution
+  await finalWorkflowExecution(
+    executionId,
+    execution.workflowId,
+    executionFailed,
+    creditsConsumed
+  );
+
+  // TODO: clean up environment
+
+  revalidatePath('/workflow/runs');
+}
+
+async function initializeWorkflowExcution(
+  executionId: string,
+  workflowId: string
+) {
+  await prisma.workflowExecution.update({
+    where: {
+      id: executionId,
+    },
+    data: {
+      startedAt: new Date(),
+      status: WorkflowExecutionStatus.RUNNING,
+    },
+  });
+
+  await prisma.workflow.update({
+    where: {
+      id: workflowId,
+    },
+    data: {
+      lasRunAt: new Date(),
+      lastRunStatus: WorkflowExecutionStatus.RUNNING,
+      lastRunId: executionId,
+    },
+  });
+}
+
+async function initializePhaseStatues(execution: any) {
+  await prisma.executionPhase.updateMany({
+    where: {
+      id: {
+        in: execution.phase.map((phase: any) => phase.id),
+      },
+    },
+    data: {
+      status: ExecutionPhaseStatus.PENDING,
+    },
+  });
+}
+
+async function finalWorkflowExecution(
+  executionId: string,
+  workflowId: string,
+  executionFailed: boolean,
+  creditsConsumed: number
+) {
+  const finalStatus = executionFailed
+    ? WorkflowExecutionStatus.FAILED
+    : WorkflowExecutionStatus.COMPLETED;
+
+  await prisma.workflowExecution.update({
+    where: {
+      id: executionId,
+    },
+    data: {
+      status: finalStatus,
+      completedAt: new Date(),
+      creditsConsumed,
+    },
+  });
+
+  await prisma.workflow
+    .update({
+      where: {
+        id: workflowId,
+        lastRunId: executionId,
+      },
+      data: {
+        lastRunStatus: finalStatus,
+      },
+    })
+    .catch((e) => {
+      //ignore
+      // this means that we have triggered other runs for this workflow
+      // while an execution was running
+    });
+}
