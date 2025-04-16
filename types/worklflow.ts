@@ -11,7 +11,7 @@ export type WorkflowTask = {
   icon: React.FC<LucideProps>;
   type: TaskType;
   isEntryPoint?: boolean;
-  inputs?: TaskParam[];
+  inputs: TaskParam[];
   outputs?: TaskParam[];
   credits?: number;
 };
