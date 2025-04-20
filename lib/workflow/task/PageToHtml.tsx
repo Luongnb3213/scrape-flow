@@ -6,7 +6,7 @@ export const PageToHtmkTask = {
   type: TaskType.PAGE_TO_HTML,
   label: 'Get HTML from page',
   icon: (props: LucideProps) => {
-    return <CodeIcon className="stroke-rose-400-400" {...props} />;
+    return <CodeIcon className="stroke-rose-400" {...props} />;
   },
   isEntryPoint: false,
   inputs: [
@@ -17,13 +17,13 @@ export const PageToHtmkTask = {
       hideHandle: false,
       helperText: '',
     },
-  ],
+  ] as const,
   outputs: [
     { name: 'Html', type: TaskParamType.STRING },
     {
       name: 'Web page',
       type: TaskParamType.BROWSER_INSTANCE,
     },
-  ],
+  ] as const,
   credits: 1,
 } satisfies WorkflowTask;

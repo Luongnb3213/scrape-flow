@@ -10,10 +10,11 @@ import {
 
 interface Props {
   children: React.ReactNode;
-  content: string;
+  content: string | null;
   side?: 'top' | 'bottom' | 'left' | 'right';
 }
 const TooltipWrapper = (props: Props) => {
+  if (!props.content) return props.children
   return (
     <TooltipProvider delayDuration={0}>
       <Tooltip>

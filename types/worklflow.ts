@@ -12,7 +12,7 @@ export type WorkflowTask = {
   type: TaskType;
   isEntryPoint?: boolean;
   inputs: TaskParam[];
-  outputs?: TaskParam[];
+  outputs: TaskParam[];
   credits?: number;
 };
 
@@ -42,4 +42,5 @@ export enum ExecutionPhaseStatus {
 
 export enum WorkFlowExecutionTrigger{
   MANUAL = 'MANUAL',
+  CRON = 'CRON',
 }

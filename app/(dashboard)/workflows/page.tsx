@@ -41,6 +41,7 @@ function UserWorkflowsSkeleton() {
 async function UserWorkflows() {
   try {
     const workflows = await getWorkflowsForUser();
+  
     if (workflows.length === 0) {
       return (
         <div className="flex flex-col gap-4 h-full items-center justify-center">

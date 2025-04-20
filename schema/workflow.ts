@@ -6,3 +6,9 @@ export const createWrokFlowShema = z.object({
 });
 
 export type createWrokFlowShemaType = z.infer<typeof createWrokFlowShema>;
+
+export const duplicateWrokFlowShema = createWrokFlowShema.extend({
+     workflowId: z.string()
+})
+
+export type duplicateWrokFlowShemaType = z.infer<typeof duplicateWrokFlowShema>;

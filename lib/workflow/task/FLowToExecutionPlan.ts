@@ -104,7 +104,6 @@ export function FLowToExecutionPlan(
 function getInvalidInputs(node: AppNode, edges: Edge[], planned: Set<string>) {
   const invalidInputs = [];
   const inputs = TaskRegistry[node.data.type].inputs;
-  console.log('inputs', inputs, node.id);
   for (const input of inputs!) {
     const inputValue = node.data.inputs[input.name];
     const inputValueProvided = inputValue?.length > 0;
@@ -126,8 +125,6 @@ function getInvalidInputs(node: AppNode, edges: Edge[], planned: Set<string>) {
       input.required &&
       inputLinkedToOutput &&
       planned.has(inputLinkedToOutput.source);
-
-    console.log(requiredInputProvidedByVisitedOutput, node.id);
     if (requiredInputProvidedByVisitedOutput) {
       // this input is required and WE have a valid value for it
       // provided by a task that is already planned

@@ -11,16 +11,22 @@ datasource db {
 }
 
 model Workflow {
-  id          String  @id @default(cuid())
-  userId      String
-  name        String
-  description String?
-  definition  String
-  status      String
+  id            String  @id @default(cuid())
+  userId        String
+  name          String
+  description   String?
+  definition    String
+  executionPlan String?
+  creditsCost   Int     @default(0)
+
+  cron String?
+
+  status String
 
   lasRunAt      DateTime?
   lastRunId     String?
   lastRunStatus String?
+  nextRunAt     DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -32,16 +38,16 @@ model Workflow {
 }
 
 model WorkflowExecution {
-  id          String    @id @default(cuid())
-  workflowId  String
-  userId      String
-  trigger     String
-  status      String
-  createdAt   DateTime  @default(now())
-  startedAt   DateTime?
-  completedAt DateTime?
-
-  creditsConsumed Int @default(0)
+  id              String    @id @default(cuid())
+  workflowId      String
+  userId          String
+  trigger         String
+  status          String
+  createdAt       DateTime  @default(now())
+  startedAt       DateTime?
+  completedAt     DateTime?
+  definition      String    @default("{}")
+  creditsConsumed Int       @default(0)
 
   workflow Workflow         @relation(fields: [workflowId], references: [id], onDelete: Cascade)
   phase    ExecutionPhase[]
@@ -63,4 +69,32 @@ model ExecutionPhase {
 
   workflowExecutionId String
   excution            WorkflowExecution @relation(fields: [workflowExecutionId], references: [id], onDelete: Cascade)
+
+  logs ExecutionLog[]
+}
+
+model ExecutionLog {
+  id        String   @id @default(cuid())
+  logLevel  String
+  message   String
+  timestamp DateTime @default(now())
+
+  executionPhaseId String
+  executionPhase   ExecutionPhase @relation(fields: [executionPhaseId], references: [id], onDelete: Cascade)
+}
+
+model UserBalance {
+  userId  String @id
+  credits Int    @default(0)
+}
+
+model Credential {
+  id  String @id @default(cuid())
+  userId String
+  name   String
+  value  String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, name])
 }
