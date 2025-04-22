@@ -13,7 +13,7 @@ export async function LaunchBrowserExecutor(
     console.log(websiteUrl);
     // console.log(JSON.stringify(environment, null, 4));
     const browser = await puppeteer.launch({
-      headless: true, // for testing
+      headless: false, // for testing
     });
     environment.log.info('Browser started successfully');
 

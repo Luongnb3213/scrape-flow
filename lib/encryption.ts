@@ -1,6 +1,7 @@
 import crypto from 'crypto';
+import "server-only"
 
-const ALG = 'aes_256-cbc'; // key length is 32 bytes
+const ALG = 'aes-256-cbc'; // key length is 32 bytes
 
 export const symmetricEncrypt = (data: string) => {
   const key = process.env.ENCRYPTION_KEY;
@@ -8,7 +9,7 @@ export const symmetricEncrypt = (data: string) => {
   if (!key) throw new Error('Encryption key not found');
 
   const iv = crypto.randomBytes(16); // 16 bytes IV for AES-256-CBC
-  const cipher = crypto.createCipheriv(ALG, Buffer.from(key), iv);
+  const cipher = crypto.createCipheriv(ALG, Buffer.from(key,"hex"), iv);
 
   // abcd =
   let encrypted = cipher.update(data);

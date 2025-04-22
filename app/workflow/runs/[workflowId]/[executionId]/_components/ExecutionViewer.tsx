@@ -159,7 +159,7 @@ const ExecutionViewer = ({ initialData }: { initialData: ExcutionData }) => {
 
           <Separator style={{ backgroundColor: '#e5e5e5' }} />
 
-          <div className="overflow-auto h-full px-2 py-4">
+          <div className="overflow-auto h-full max-h-[400px] px-2 py-4">
             {query.data?.phase.map((phase, index) => {
               return (
                 <Button
