@@ -24,22 +24,22 @@ import UserAvailableCreditsBadge from './UserAvailableCreditsBadge';
 
 const routes = [
   {
-    href: '/',
+    href: '',
     label: 'Home',
     icon: HomeIcon,
   },
   {
-    href: '/workflows',
+    href: 'workflows',
     label: 'Workflows',
     icon: Layers2Icon,
   },
   {
-    href: '/credentials',
+    href: 'credentials',
     label: 'Credentials',
     icon: ShieldCheckIcon,
   },
   {
-    href: '/billing',
+    href: 'billing',
     label: 'Billing',
     icon: CoinsIcon,
   },
@@ -48,7 +48,7 @@ const routes = [
 const DesktopSidebar = () => {
   const pathname = usePathname();
   const activeRoute =
-    routes.find((route) => route.href.length > 0 && pathname == route.href) ||
+    routes.find((route) => route.href.length > 0 && pathname.includes(route.href)) ||
     routes[0];
   return (
     <div
@@ -65,7 +65,7 @@ const DesktopSidebar = () => {
         {routes.map((route) => {
           return (
             <Link
-              href={route.href}
+              href={`/${route.href}`}
               className={buttonVariants({
                 variant:
                   activeRoute.href === route.href

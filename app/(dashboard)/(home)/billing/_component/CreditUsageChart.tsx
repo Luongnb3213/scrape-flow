@@ -80,6 +80,7 @@ const CreditUsageChart = ({
             />
             <Bar
               fillOpacity={0.6}
+              radius={[0,0,4,4]}
               dataKey={'success'}
               stroke="var(--color-success)"
               fill="var(--color-success)"
@@ -87,6 +88,7 @@ const CreditUsageChart = ({
             />
             <Bar
               fillOpacity={0.6}
+              radius={[4,4,0,0]}
               stroke="#9F4141"
               fill="#9F4141"
               stackId={'a'}
