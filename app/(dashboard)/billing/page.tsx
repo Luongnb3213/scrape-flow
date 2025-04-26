@@ -11,7 +11,7 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { waitFor } from '@/lib/helper/waitFor';
 import { ArrowLeftRightIcon, CoinsIcon } from 'lucide-react';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import CreditsPurchase from '../(home)/billing/_component/CreditsPurchase';
 import { Period } from '@/types/analytics';
 import { GetCreditUsageInPeriod } from '@/actions/analytics/GetCreditUsageInPeriod';
@@ -20,6 +20,7 @@ import { GetUserPurchaseHistory } from '@/actions/billing/GetUserPurchaseHistory
 import InvoiceBtn from './_components/InvoiceBtn';
 
 export default function BillingPage() {
+
   return (
     <div className="mx-auto p-4 space-y-8">
       <h1 className="text-3xl font-bold">Billing</h1>
@@ -107,35 +108,28 @@ async function TransactionHistoryCard() {
         {purchases.length == 0 && (
           <p className="text-muted-foreground"> No transactions yet</p>
         )}
-        {
-          purchases.map((purchase) => {
-            return (
-              <div key={purchase.id} className='flex justify-between items-center py-3 border-b last:border-b-0'>
-                <div>
-                  <p className='font-bold'>{formatDate(purchase.date)}</p>
-                  <p className='text-sm text-muted-foreground'>{purchase.description}</p>
-                </div>
-                <div className='text-right'>
-                  <p className='font-medium'>
-                    {formatAmount(purchase.amount, purchase.currency)} 
-                  </p>
-                  <InvoiceBtn id={purchase.id} /> 
-                </div>
+        {purchases.map((purchase) => {
+          return (
+            <div
+              key={purchase.id}
+              className="flex justify-between items-center py-3 border-b last:border-b-0"
+            >
+              <div>
+                <p className="font-bold">{formatDate(purchase.date)}</p>
+                <p className="text-sm text-muted-foreground">
+                  {purchase.description}
+                </p>
               </div>
-            )
-          })
-        }
+              <div className="text-right">
+                <p className="font-medium">
+                  {purchase.amount} VND
+                </p>
+              </div>
+            </div>
+          );
+        })}
       </CardContent>
     </Card>
   );
 }
 
-function formatAmount(
-  amount: number,
-  currency: string
-): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-  }).format(amount / 100);
-}

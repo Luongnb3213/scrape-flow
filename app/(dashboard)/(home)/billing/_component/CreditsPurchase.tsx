@@ -15,21 +15,20 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { CreditsPack, PackId } from '@/types/billing';
 import { useMutation } from '@tanstack/react-query';
 import { CoinsIcon, CreditCard } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 const CreditsPurchase = () => {
   const [selectedpack, setSelectedPack] = useState(PackId.MEDIUM);
- 
+  const router = useRouter();
+
   const mutation = useMutation({
     mutationFn: PurchaseCredits,
     onSuccess(data, variables, context) {
-        
+      router.push(data as string);
     },
-    onError(error, variables, context) {
-        
-    },
-  })
- 
+    onError(error, variables, context) {},
+  });
 
   return (
     <Card>
@@ -67,9 +66,13 @@ const CreditsPurchase = () => {
         </RadioGroup>
       </CardContent>
       <CardFooter>
-        <Button onClick={() => {
-            mutation.mutate(selectedpack)
-        }} className="w-full">
+        <Button
+          onClick={() => {
+            mutation.mutate(selectedpack);
+          }}
+          className="w-full"
+          disabled={mutation.isPending}
+        >
           <CreditCard className="mr-2 h-5 w-5" />
           Purchase credits
         </Button>

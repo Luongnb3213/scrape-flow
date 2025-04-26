@@ -21,6 +21,7 @@ const Home = ({
 }) => {
   const currentDate = new Date();
   const { month, year } = searchParams;
+  console.log('searchParams', searchParams);
   const period: Period = {
     month: month ? parseInt(month) : currentDate.getMonth(),
     year: year ? parseInt(year) : currentDate.getFullYear(),
@@ -121,5 +122,5 @@ async function CreditsUsageInPeriod({
     />
   );
 }
-
 export default Home;
+
