@@ -11,14 +11,14 @@ import ExecutionStatusChart from './_component/ExecutionStatusChart';
 import { GetCreditUsageInPeriod } from '@/actions/analytics/GetCreditUsageInPeriod';
 import CreditUsageChart from './billing/_component/CreditUsageChart';
 
-const Home = ({
+export default function  HomePage ({
   searchParams,
 }: {
   searchParams: {
     month?: string;
     year?: string;
   };
-}) => {
+}){
   const currentDate = new Date();
   const { month, year } = searchParams;
   console.log('searchParams', searchParams);
@@ -122,5 +122,4 @@ async function CreditsUsageInPeriod({
     />
   );
 }
-export default Home;
 
