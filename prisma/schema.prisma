@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = "file:./dev.db"
+  url      = "prisma+postgres://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiOWMyYjY0ODYtNTU5Zi00MDUxLWIyNzItNDZlOTVmMjA3NThlIiwidGVuYW50X2lkIjoiZDNiMGNiOTQ0NjUyZGExMmRjOGQwYTRkNzBmMGM0MWJkMDg5ZDE3NTU5ZGJhZTEzMjY4MTRkM2E2ODg1MzgyYSIsImludGVybmFsX3NlY3JldCI6Ijk1Yjc0MmYzLTRlZDMtNGE2ZC05MjY2LWVhNDQzYjBhZGQ1ZCJ9.CprCSyo-zCNi6RUbJonHB3qee2G9YN4hEtStwFUiRk0"
 }
 
 model Workflow {
