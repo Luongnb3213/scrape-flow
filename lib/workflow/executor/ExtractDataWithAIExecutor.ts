@@ -39,14 +39,13 @@ export async function ExtractDataWithAIExecutor(
       return false;
     }
 
-    let testResult = {
-      usernameSelector: '#username',
-      passwordSelector: '#password',
-      loginSelector: 'body > div > form > input.btn.btn-primary',
-    };
+    // let testResult = {
+    //   usernameSelector: '#username',
+    //   passwordSelector: '#password',
+    //   loginSelector: 'body > div > form > input.btn.btn-primary',
+    // };
 
-    environment.setOutput('Extracted data', JSON.stringify(testResult));
-    return true;
+
 
     const openai = new OpenAI({
       apiKey: plainCredentialValue,
@@ -88,6 +87,9 @@ export async function ExtractDataWithAIExecutor(
       environment.log.error('Empty response from AI');
       return false;
     }
+
+    environment.setOutput('Extracted data', JSON.stringify(result));
+   return true;
 
    
   } catch (error: any) {
