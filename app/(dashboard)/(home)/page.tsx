@@ -59,7 +59,7 @@ async function PeriodSelectorWrapper({
   return <PeriodSelector selectedPeriod={selectedPeriod} periods={periods} />;
 }
 
-export async function StatsCards({
+async function StatsCards({
   selectedPeriod,
 }: {
   selectedPeriod: Period;
